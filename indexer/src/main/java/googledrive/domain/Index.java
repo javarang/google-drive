@@ -1,5 +1,6 @@
 package googledrive.domain;
 
+import googledrive.domain.Indexed;
 import googledrive.IndexerApplication;
 import javax.persistence.*;
 import java.util.List;
@@ -22,6 +23,14 @@ public class Index  {
     
     private Long id;
 
+    @PostPersist
+    public void onPostPersist(){
+
+
+        Indexed indexed = new Indexed(this);
+        indexed.publishAfterCommit();
+
+    }
 
     public static IndexRepository repository(){
         IndexRepository indexRepository = IndexerApplication.applicationContext.getBean(IndexRepository.class);
@@ -31,6 +40,31 @@ public class Index  {
 
 
 
+    public static void makeIndex(FileUploaded fileUploaded){
+
+        /** Example 1:  new item 
+        Index index = new Index();
+        repository().save(index);
+
+        Indexed indexed = new Indexed(index);
+        indexed.publishAfterCommit();
+        */
+
+        /** Example 2:  finding and process
+        
+        repository().findById(fileUploaded.get???()).ifPresent(index->{
+            
+            index // do something
+            repository().save(index);
+
+            Indexed indexed = new Indexed(index);
+            indexed.publishAfterCommit();
+
+         });
+        */
+
+        
+    }
 
 
 }

@@ -1,5 +1,6 @@
 package googledrive.domain;
 
+import googledrive.domain.FileUploaded;
 import googledrive.DriveApplication;
 import javax.persistence.*;
 import java.util.List;
@@ -33,7 +34,21 @@ public class File  {
     
     
     private String type;
+    
+    
+    
+    
+    
+    private Long size;
 
+    @PostPersist
+    public void onPostPersist(){
+
+
+        FileUploaded fileUploaded = new FileUploaded(this);
+        fileUploaded.publishAfterCommit();
+
+    }
 
     public static FileRepository repository(){
         FileRepository fileRepository = DriveApplication.applicationContext.getBean(FileRepository.class);

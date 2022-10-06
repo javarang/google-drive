@@ -33,6 +33,8 @@ public class PolicyHandler{
         
 
         // Sample Logic //
+        Index.makeIndex(event);
+        
 
         
 
